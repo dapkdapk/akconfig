@@ -12,10 +12,6 @@ AKConfig
 
 A configuration management for python projects.
 supports following types: int, str, dict, list, float, tuple
-
-author:  dapk
-email:   dapk@gmx.net
-license: MIT
 """
 
 

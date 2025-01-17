@@ -1,5 +1,3 @@
-import os
-
 import click
 
 from ak.config_cls import AKConfig
