@@ -32,13 +32,20 @@ VARS_MASK = ["VAR_H"]
     is_flag=True,
     help="Set argument if you want force environment variables",
 )
-def main(config, force_env_vars):
+@click.option(
+    "-u",
+    "--uncolored-print",
+    is_flag=True,
+    help="Set argument and output is not colored",
+)
+def main(config, force_env_vars, uncolored_print):
 
     cfg = AKConfig(
         global_vars=globals(),
         config_params=config,
         mask_keys=VARS_MASK,
         force_env_vars=force_env_vars,
+        uncolored=uncolored_print,
     )
 
     cfg.print_config()

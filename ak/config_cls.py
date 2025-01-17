@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from datetime import datetime
 from typing import Any
 
 from colored import Fore, Style
@@ -25,12 +26,14 @@ class AKConfig:
         config_params: tuple = (),
         mask_keys: list = [],
         force_env_vars: bool = True,
+        uncolored: bool = False,
     ):
         self.keys = AKConfig.GetGlobals(global_vars)
         self.mask_keys = mask_keys
         self.mask_values = []
         self.global_vars = global_vars
         self.force_env_vars = force_env_vars
+        self.uncolored = uncolored
         for key in self.keys:
             if key in self.global_vars:
                 val = self.global_vars[key]
@@ -133,7 +136,9 @@ class AKConfig:
             ret_a = ret.copy()
             ret_n = {}
             for k, v in ret_a.items():
-                ret_n["{} ({})".format(k, AKConfig._TypedCol(v, True))] = v
+                ret_n[
+                    "{} ({})".format(k, AKConfig._TypedCol(v, True, self.uncolored))
+                ] = v
             return ret_n
         else:
             return ret
@@ -142,8 +147,9 @@ class AKConfig:
         print(
             AKConfig.CreateTable(
                 entries=self.get_config(True, 5),
-                title="AKConfig variables",
-                heading_border=False,
+                title="AKCONFIG VARIABLES",
+                footing_row=["Date", "{}".format(datetime.now())],
+                uncolored=self.uncolored,
             )
         )
 
@@ -165,24 +171,37 @@ class AKConfig:
             return str(val)
 
     @staticmethod
-    def Col(val, fore_256: str = "white"):
+    def Col(val, fore_256: str = "white", uncolored: bool = False):
         """
         https://dslackw.gitlab.io/colored/tables/colors/
         """
-        return "{}{}{}".format(
-            getattr(Fore, fore_256), str(val), getattr(Style, "reset")
-        )
+        if uncolored is False:
+            return "{}{}{}".format(
+                getattr(Fore, fore_256), str(val), getattr(Style, "reset")
+            )
+        else:
+            return str(val)
 
     @staticmethod
-    def CreateTable(entries: dict, title: str = "", heading_border: bool = True):
+    def CreateTable(
+        entries: dict,
+        title: str = "",
+        footing_row: list | None = None,
+        uncolored: bool = False,
+    ):
         """
         check: https://robpol86.github.io/terminaltables/
         """
         tab = []
+        tab.append(["NAME", "VALUE"])
         for k, v in entries.items():
-            tab.append([k, AKConfig._TypedCol(v)])
+            tab.append([k, AKConfig._TypedCol(v, False, uncolored)])
+        if footing_row is not None:
+            tab.append(footing_row)
         table = AsciiTable(table_data=tab, title=title)
-        table.inner_heading_row_border = heading_border
+        if footing_row is not None:
+            table.inner_footing_row_border = True
+        table.inner_heading_row_border = True
         return table.table
 
     @staticmethod
@@ -206,26 +225,28 @@ class AKConfig:
         ]
 
     @staticmethod
-    def _TypedCol(val: Any, as_type_name: bool = False):
+    def _TypedCol(val: Any, as_type_name: bool = False, uncolored: bool = False):
         """
         check: https://dslackw.gitlab.io/colored/tables/colors/
         """
         v = type(val).__name__ if as_type_name else val
         if type(val) == str or v == "str":
-            return AKConfig.Col(v, fore_256="light_blue")
+            return AKConfig.Col(v, fore_256="light_blue", uncolored=uncolored)
         elif type(val) == bool or v == "bool":
             return AKConfig.Col(
-                v, fore_256=("light_green" if val == True else "light_red")
+                v,
+                fore_256=("light_green" if val == True else "light_red"),
+                uncolored=uncolored,
             )
         elif type(val) == list or v == "list":
-            return AKConfig.Col(v, fore_256="light_magenta")
+            return AKConfig.Col(v, fore_256="light_magenta", uncolored=uncolored)
         elif type(val) == dict or v == "dict":
-            return AKConfig.Col(v, fore_256="light_cyan")
+            return AKConfig.Col(v, fore_256="light_cyan", uncolored=uncolored)
         elif type(val) == int or v == "int":
-            return AKConfig.Col(v, fore_256="light_yellow")
+            return AKConfig.Col(v, fore_256="light_yellow", uncolored=uncolored)
         elif type(val) == float or v == "float":
-            return AKConfig.Col(v, fore_256="light_sea_green")
+            return AKConfig.Col(v, fore_256="light_sea_green", uncolored=uncolored)
         elif type(val) == tuple or v == "tuple":
-            return AKConfig.Col(v, fore_256="light_steel_blue")
+            return AKConfig.Col(v, fore_256="light_steel_blue", uncolored=uncolored)
         else:
             return val
