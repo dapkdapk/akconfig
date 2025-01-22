@@ -1,6 +1,6 @@
 import click
 
-from ak.config_cls import AKConfig
+from ak.config import AKConfig
 
 """
 These are global variables
@@ -13,8 +13,9 @@ VAR_E = {"a": "b", "c": "d"}
 VAR_F = ["a", "b", "c", "d"]
 VAR_G = ("a", "b", "c", "d")
 VAR_H = "SECRET"
+VAR_I = r"^\sTest.*"
+VAR_J = "Some text SECRET should be masked"
 VARS_MASK = ["VAR_H"]
-
 
 @click.command()
 @click.option(
@@ -37,7 +38,6 @@ VARS_MASK = ["VAR_H"]
     help="Set argument and output is not colored",
 )
 def main(config, force_env_vars, uncolored_print):
-
     cfg = AKConfig(
         global_vars=globals(),
         config_args=config,

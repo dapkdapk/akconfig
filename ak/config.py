@@ -12,15 +12,36 @@ AKConfig
 
 A configuration management for python projects.
 supports following types: int, str, dict, list, float, tuple
-"""
 
+Example:
+export VAR_A="HELLO YOU"
+--- file.py -->
+from ak.config import AKConfig
+VAR_A = "HELLO WORLD"
+VAR_B = 100
+VAR_C = True
+VAR_D = ("a", "b", "c", "d")
+VAR_E = "SECRET"
+VARS_MASK = ["VAR_E"]
+config = (('VAR_A', 'HELLO ME'),)
+cfg = AKConfig(
+    global_vars=globals(),
+    config_args=config,
+    mask_keys=VARS_MASK,
+    force_env_vars=True,
+    uncolored=True,
+)
+# print(cfg.VAR_A)
+cfg.print_config()
+<< --- file.py --
+"""
 
 class AKConfig:
     def __init__(
         self,
         global_vars: dict = {},
         config_args: tuple = (),
-        mask_keys: list = [],
+        mask_keys: list|None = None,
         force_env_vars: bool = True,
         uncolored: bool = False,
     ):
@@ -84,7 +105,7 @@ class AKConfig:
         o = {}
         for k in self.keys:
             v = getattr(self, k)
-            if k in self.mask_keys and isinstance(v, str):
+            if self.mask_keys and k in self.mask_keys and isinstance(v, str):
                 o[k] = _m(k)
                 self.mask_values.append(v)
             else:
@@ -103,8 +124,11 @@ class AKConfig:
                         if isinstance(vi, dict):
                             i[ki] = _p(vi)
                         elif isinstance(vi, str):
-                            for p in self.mask_values:
-                                i[ki] = vi.replace(p, _m(ki))
+                            if len(self.mask_values) > 0:
+                                for p in self.mask_values:
+                                    i[ki] = vi.replace(p, _m(ki))
+                            else:
+                                i[ki] = vi
                         else:
                             i[ki] = vi
                     if k not in r:
@@ -114,8 +138,11 @@ class AKConfig:
                     a = []
                     for l in v:
                         if isinstance(l, str):
-                            for t in self.mask_values:
-                                a.append(l.replace(t, _m(k)))
+                            if len(self.mask_values) > 0:
+                                for t in self.mask_values:
+                                    a.append(l.replace(t, _m(k)))
+                            else:
+                                a.append(l)
                         elif isinstance(l, dict):
                             a.append(_p(l))
                         else:

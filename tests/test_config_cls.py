@@ -1,6 +1,6 @@
 import unittest
 
-from ak.config_cls import \
+from ak.config import \
     AKConfig  # Replace 'your_module' with the actual module name
 
 

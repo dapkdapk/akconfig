@@ -1,5 +1,9 @@
 # akconfig
 
+A configuration management for global variables in python projects.
+akconfig is a small python class that takes global variables and lets you manipulate them quickly. the advantage can be that you still need manipulations that are to be changed via arguments, or via environment variables. when executing the example file basic.py, it quickly becomes obvious what this is intended for.
+
+
 ## example
 
 `$ poetry run basic`
