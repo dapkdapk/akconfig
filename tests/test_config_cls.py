@@ -55,7 +55,7 @@ class TestAKConfig(unittest.TestCase):
             ("string_var", "another_string"),
             ("int_var", "30"),
         )
-        self.ak_config.params(new_params)
+        self.ak_config.arguments(new_params)
         self.assertEqual(self.ak_config.string_var, "another_string")
         self.assertEqual(self.ak_config.int_var, 30)
 

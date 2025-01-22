@@ -19,7 +19,7 @@ class AKConfig:
     def __init__(
         self,
         global_vars: dict = {},
-        config_params: tuple = (),
+        config_args: tuple = (),
         mask_keys: list = [],
         force_env_vars: bool = True,
         uncolored: bool = False,
@@ -36,8 +36,8 @@ class AKConfig:
                 if force_env_vars is True and key in os.environ:
                     val = AKConfig.Cast(os.getenv(key), val)
                 setattr(self, key, val)
-        if len(config_params) > 0:
-            self.params(config_params)
+        if len(config_args) > 0:
+            self.arguments(config_args)
 
     def set(self, attrib: str, input_value: Any | None):
         if hasattr(self, attrib) and input_value is not None:
@@ -45,7 +45,7 @@ class AKConfig:
                 setattr(self, attrib, input_value)
                 logging.info(f"> Set: {attrib}={input_value}")
 
-    def params(self, input_value: tuple):
+    def arguments(self, input_value: tuple):
         cfg = dict(input_value)
         if len(cfg) > 0:
             for k, v in cfg.items():
