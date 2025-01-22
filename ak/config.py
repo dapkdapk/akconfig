@@ -36,12 +36,13 @@ cfg.print_config()
 << --- file.py --
 """
 
+
 class AKConfig:
     def __init__(
         self,
         global_vars: dict = {},
         config_args: tuple = (),
-        mask_keys: list|None = None,
+        mask_keys: list | None = None,
         force_env_vars: bool = True,
         uncolored: bool = False,
     ):

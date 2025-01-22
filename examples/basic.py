@@ -17,6 +17,7 @@ VAR_I = r"^\sTest.*"
 VAR_J = "Some text SECRET should be masked"
 VARS_MASK = ["VAR_H"]
 
+
 @click.command()
 @click.option(
     "-c",
