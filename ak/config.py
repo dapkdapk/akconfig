@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import click
 from datetime import datetime
 from typing import Any
 
@@ -41,7 +42,7 @@ class AKConfig:
     def __init__(
         self,
         global_vars: dict = {},
-        config_args: tuple = (),
+        config_args: tuple|None = None,
         mask_keys: list | None = None,
         force_env_vars: bool = True,
         uncolored: bool = False,
@@ -50,15 +51,19 @@ class AKConfig:
         self.mask_keys = mask_keys
         self.mask_values = []
         self.global_vars = global_vars
+        self.click:click = self.global_vars["click"] if "click" in self.global_vars else None
         self.force_env_vars = force_env_vars
         self.uncolored = uncolored
         for key in self.keys:
-            if key in self.global_vars:
+            if self.global_vars and key in self.global_vars:
                 val = self.global_vars[key]
                 if force_env_vars is True and key in os.environ:
                     val = AKConfig.Cast(os.getenv(key), val)
                 setattr(self, key, val)
-        if len(config_args) > 0:
+        if self.click is not None:
+            for key,val in dict(self.click.get_current_context().params).items():
+                setattr(self,key,val)
+        if config_args and len(config_args) > 0:
             self.arguments(config_args)
 
     def set(self, attrib: str, input_value: Any | None):
