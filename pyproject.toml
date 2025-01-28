@@ -12,6 +12,7 @@ packages = [{include = "ak"}]
 
 [tool.poetry.scripts]
 basic = "examples.basic:main"
+click-args = "examples.click_args:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"

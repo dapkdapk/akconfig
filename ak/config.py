@@ -1,10 +1,10 @@
 import json
 import logging
 import os
-import click
 from datetime import datetime
 from typing import Any
 
+import click
 from colored import Fore, Style
 from terminaltables import AsciiTable
 
@@ -42,7 +42,7 @@ class AKConfig:
     def __init__(
         self,
         global_vars: dict = {},
-        config_args: tuple|None = None,
+        config_args: tuple | None = None,
         mask_keys: list | None = None,
         force_env_vars: bool = True,
         uncolored: bool = False,
@@ -51,18 +51,31 @@ class AKConfig:
         self.mask_keys = mask_keys
         self.mask_values = []
         self.global_vars = global_vars
-        self.click:click = self.global_vars["click"] if "click" in self.global_vars else None
+        self.click: click = (
+            self.global_vars["click"] if "click" in self.global_vars else None
+        )
         self.force_env_vars = force_env_vars
         self.uncolored = uncolored
+        if self.click is not None:
+            _args = AKConfig.GetARgVars(
+                self.click,
+                *[
+                    k.__dict__["name"]
+                    for k in self.click.get_current_context()
+                    .__dict__["command"]
+                    .__dict__["params"]
+                ],
+            )
+            for _arg in _args:
+                _val = _arg["value"]
+                setattr(self, _arg["name"], _val)
+                self.keys.append(_arg["name"])
         for key in self.keys:
             if self.global_vars and key in self.global_vars:
                 val = self.global_vars[key]
                 if force_env_vars is True and key in os.environ:
                     val = AKConfig.Cast(os.getenv(key), val)
                 setattr(self, key, val)
-        if self.click is not None:
-            for key,val in dict(self.click.get_current_context().params).items():
-                setattr(self,key,val)
         if config_args and len(config_args) > 0:
             self.arguments(config_args)
 
@@ -181,6 +194,35 @@ class AKConfig:
                 uncolored=self.uncolored,
             )
         )
+
+    def get_arg_envvar(self, *var_names) -> list:
+        if self.click is not None:
+            return AKConfig.GetARgVars(self.click, *var_names)
+        else:
+            return []
+
+    @staticmethod
+    def GetARgVars(clk: click, *var_names) -> list:
+        res = []
+        for opt in clk.get_current_context().__dict__["command"].__dict__["params"]:
+            param_dict = opt.__dict__
+            param_name = param_dict["name"]
+            if param_name in var_names:
+                if "envvar" in param_dict:
+                    var_name = param_dict["envvar"]
+                    if var_name is not None:
+                        res.append(
+                            {
+                                "name": var_name,
+                                "value": click.get_current_context().__dict__["params"][
+                                    param_name
+                                ],
+                                "default": param_dict["default"],
+                                "global_env": os.getenv(var_name),
+                                "type": param_dict["type"],
+                            }
+                        )
+        return res
 
     @staticmethod
     def Cast(val: Any, in_type: Any):
