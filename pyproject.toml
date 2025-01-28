@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "akconfig"
-version = "0.1.4"
+version = "0.1.5"
 description = "A configuration management for global variables in python projects."
 authors = ["dapk <dapk@gmx.net>"]
 license = "MIT"
