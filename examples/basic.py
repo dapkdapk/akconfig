@@ -55,21 +55,21 @@ def main(config, force_env_vars, uncolored_print):
 Example A
 =========
 description: use env var and force with arg -f
-try: export VAR_B=200;poetry run basic -f
+try: export VAR_B=200;poetry run python basic.py -f
     """
 
     example_b = """
 Example B
 =========
 description: use arg -c (multiple) to overwrite global variables
-try: poetry run basic -c VAR_A "I'm here"
+try: poetry run python basic.py -c VAR_A "I'm here"
     """
 
     example_c = """
 Example C
 =========
 description: use arg -c (multiple) to overwrite global variables
-try: poetry run basic -c VAR_E '{"key_name":"val_anything"}'
+try: poetry run python basic.py -c VAR_E '{"key_name":"val_anything"}'
     """
 
     if force_env_vars is False:
