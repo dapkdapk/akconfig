@@ -10,10 +10,6 @@ packages = [{include = "ak"}]
 [project.urls]
 "Source Code" = "https://github.com/dapkdapk/akconfig.git"
 
-[tool.poetry.scripts]
-basic = "examples.basic:main"
-click-args = "examples.click_args:main"
-
 [tool.poetry.dependencies]
 python = "^3.10"
 terminaltables = "^3.1.10"

@@ -9,7 +9,7 @@ pypi.org: https://pypi.org/project/akconfig/
 ## get help
 
 ```
-poetry run basic --help
+poetry run python examples/basic.py --help
 Usage: basic [OPTIONS]
 
 Options:
@@ -22,7 +22,7 @@ Options:
 
 ## example basic
 
-`$ poetry run basic`
+`$ poetry run python ./examples/basic.py`
 
 ```
 import click
@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
 ### example click arguments
 
-`poetry run click-args -b World -c false`
+`poetry run python ./examples/click_args.py -b World -c false`
 
 ```
 import click
