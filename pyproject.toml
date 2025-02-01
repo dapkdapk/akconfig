@@ -1,25 +1,27 @@
-[tool.poetry]
+[project]
 name = "akconfig"
 version = "0.1.9"
 description = "A configuration management for global variables in python projects."
-authors = ["dapk <dapk@gmx.net>"]
-license = "MIT"
+authors = [{"name" = "dapk", "email" = "dapk@gmx.net"}]
+license = { text = "MIT" }
 readme = "README.md"
-homepage = "https://github.com/dapkdapk/akconfig"
-repository = "https://github.com/dapkdapk/akconfig"
-packages = [{include = "ak"}]
+requires-python = ">=3.9,<4.0"
+dependecies = [
+    "terminaltables (>=3.1.10)",
+    "colored (>=2.2.4)"
+]
 
 [project.urls]
 "Source Code" = "https://github.com/dapkdapk/akconfig.git"
+Homepage = "https://github.com/dapkdapk/akconfig"
+Repository = "https://github.com/dapkdapk/akconfig"
 
 [project.scripts]
 example-basic = "examples.basic:main"
 example-click-args = "examples.click_args:main"
 
-[tool.poetry.dependencies]
-python = ">=3.10.0,<4.0.0"
-terminaltables = "^3.1.10"
-colored = "^2.2.4"
+[tool.poetry]
+packages = [{include = "ak"}]
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.10.0"
