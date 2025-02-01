@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
 ### example click arguments
 
-`poetry run python ./examples/click_args.py -b World -c false`
+`VAR_TEST_A=Hi poetry run python ./examples/click_args.py -b World -c false`
 
 ```
 import click
@@ -130,14 +130,14 @@ if __name__ == "__main__":
 #### output:
 
 ```
-Hello World False [{'name': 'VAR_TEST_B', 'value': 'World', 'default': 'you', 'global_env': None, 'type': STRING}]
+Hi World False [{'name': 'VAR_TEST_B', 'value': 'World', 'default': 'you', 'global_env': None, 'type': STRING}]
 +AKCONFIG VARIABLES-+----------------------------+
 | NAME              | VALUE                      |
 +-------------------+----------------------------+
-| VAR_TEST_A (str)  | Hello                      |
+| VAR_TEST_A (str)  | Hi                         |
 | VAR_TEST_B (str)  | World                      |
 | VAR_TEST_C (bool) | False                      |
 +-------------------+----------------------------+
-| Date              | 2025-01-28 01:34:05.127236 |
-+-------------------+----------------------------+
+| Date              | 2025-02-01 09:35:31.698357 |
++-------------------+----------------------------
 ```
