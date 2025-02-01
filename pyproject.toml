@@ -5,13 +5,19 @@ description = "A configuration management for global variables in python project
 authors = ["dapk <dapk@gmx.net>"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/dapkdapk/akconfig"
+repository = "https://github.com/dapkdapk/akconfig"
 packages = [{include = "ak"}]
 
 [project.urls]
 "Source Code" = "https://github.com/dapkdapk/akconfig.git"
 
+[project.scripts]
+example-basic = "examples.basic:main"
+example-click-args = "examples.click_args:main"
+
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.10.0,<4.0.0"
 terminaltables = "^3.1.10"
 colored = "^2.2.4"
 
@@ -20,6 +26,7 @@ black = "^24.10.0"
 isort = "^5.13.2"
 pytest = "^8.3.4"
 click = "^8.1.8"
+pytest-cov = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]
