@@ -76,6 +76,18 @@ files = [
 ]
 
 [[package]]
+name = "colored"
+version = "2.2.5"
+description = "Simple python library for color and formatting to terminal"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "colored-2.2.5-py3-none-any.whl", hash = "sha256:c5434a905c2a6edcc41d7fc5b540999368b4bd8281ecf1e9e9bbd21ff62a6695"},
+    {file = "colored-2.2.5.tar.gz", hash = "sha256:60cc61ea656cd3e753380fbc19fc62b0f65b60b2a096ba01bc476d6738ace441"},
+]
+
+[[package]]
 name = "coverage"
 version = "7.6.10"
 description = "Code coverage measurement for Python"
@@ -308,6 +320,18 @@ pytest = ">=4.6"
 testing = ["fields", "hunter", "process-tests", "pytest-xdist", "virtualenv"]
 
 [[package]]
+name = "terminaltables"
+version = "3.1.10"
+description = "Generate simple tables in terminals from a nested list of strings."
+optional = false
+python-versions = ">=2.6"
+groups = ["main"]
+files = [
+    {file = "terminaltables-3.1.10-py2.py3-none-any.whl", hash = "sha256:e4fdc4179c9e4aab5f674d80f09d76fa436b96fdc698a8505e0a36bf0804a874"},
+    {file = "terminaltables-3.1.10.tar.gz", hash = "sha256:ba6eca5cb5ba02bba4c9f4f985af80c54ec3dccf94cfcd190154386255e47543"},
+]
+
+[[package]]
 name = "tomli"
 version = "2.2.1"
 description = "A lil' TOML parser"
@@ -366,4 +390,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9,<4.0"
-content-hash = "db1d18985f8e76f9d6d39573350a8177b66b84ad1ea971de5b2d3e9428fb2934"
+content-hash = "5418074ea415e9a7ed7c9ac56fccf96bed27110a44953e4241f83e697030d904"

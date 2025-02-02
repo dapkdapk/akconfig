@@ -6,9 +6,9 @@ authors = [{"name" = "dapk", "email" = "dapk@gmx.net"}]
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.9,<4.0"
-dependecies = [
-    "terminaltables (>=3.1.10)",
-    "colored (>=2.2.4)"
+dependencies = [
+    "colored>=2.2.5",
+    "terminaltables>=3.1.10"
 ]
 
 [project.urls]
