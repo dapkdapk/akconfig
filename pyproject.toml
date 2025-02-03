@@ -1,6 +1,6 @@
 [project]
 name = "akconfig"
-version = "0.1.9"
+version = "0.1.10"
 description = "A configuration management for global variables in python projects."
 authors = [{"name" = "dapk", "email" = "dapk@gmx.net"}]
 license = { text = "MIT" }

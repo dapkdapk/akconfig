@@ -1,3 +1,4 @@
+import inspect
 import json
 import logging
 import os
@@ -41,16 +42,19 @@ cfg.print_config()
 class AKConfig:
     def __init__(
         self,
-        global_vars: dict = {},
+        global_vars: dict | None = None,
         config_args: tuple | None = None,
         mask_keys: list | None = None,
         force_env_vars: bool = True,
         uncolored: bool = False,
     ):
-        self.keys = AKConfig.GetGlobals(global_vars)
+        caller_globals = dict(inspect.getmembers(inspect.stack()[1][0]))["f_globals"]
+        if global_vars is not None:
+            caller_globals = global_vars
+        self.keys = AKConfig.GetGlobals(caller_globals)
         self.mask_keys = mask_keys
         self.mask_values = []
-        self.global_vars = global_vars
+        self.global_vars = caller_globals
         self.click: click = (
             self.global_vars["click"] if "click" in self.global_vars else None
         )
@@ -280,7 +284,10 @@ class AKConfig:
         return empty if os.getenv(env_key) is None else os.getenv(env_key)
 
     @staticmethod
-    def GetGlobals(global_vars: dict) -> list:
+    def GetGlobals(global_vars: dict | None = None) -> list:
+        _global_vars = dict(inspect.getmembers(inspect.stack()[1][0]))["f_globals"]
+        if global_vars is not None:
+            _global_vars = global_vars
         return [
             i
             for i in [
@@ -290,7 +297,7 @@ class AKConfig:
                     and not str(k).startswith("__")
                     else None
                 )
-                for k, v in global_vars.copy().items()
+                for k, v in _global_vars.copy().items()
             ]
             if i is not None
         ]

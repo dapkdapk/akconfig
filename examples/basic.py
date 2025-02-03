@@ -24,7 +24,7 @@ VARS_MASK = ["VAR_H"]
     "--config",
     multiple=True,
     type=(str, str),
-    help="Config parameters are: {}".format(", ".join(AKConfig.GetGlobals(globals()))),
+    help="Config parameters are: {}".format(", ".join(AKConfig.GetGlobals())),
 )
 @click.option(
     "-f",
@@ -40,7 +40,6 @@ VARS_MASK = ["VAR_H"]
 )
 def main(config, force_env_vars, uncolored_print):
     cfg = AKConfig(
-        global_vars=globals(),
         config_args=config,
         mask_keys=VARS_MASK,
         force_env_vars=force_env_vars,

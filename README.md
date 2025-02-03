@@ -50,7 +50,7 @@ VARS_MASK = ["VAR_H"]
     "--config",
     multiple=True,
     type=(str, str),
-    help="Config parameters are: {}".format(", ".join(AKConfig.GetGlobals(globals()))),
+    help="Config parameters are: {}".format(", ".join(AKConfig.GetGlobals())),
 )
 @click.option(
     "-f",
@@ -66,7 +66,6 @@ VARS_MASK = ["VAR_H"]
 )
 def main(config, force_env_vars, uncolored_print):
     cfg = AKConfig(
-        global_vars=globals(),
         config_args=config,
         mask_keys=VARS_MASK,
         force_env_vars=force_env_vars,
@@ -116,7 +115,7 @@ VAR_TEST_A = "Hello"
 @click.option("-b", "--test-b", envvar="VAR_TEST_B", default="you")
 @click.option("-c", "--test-c", envvar="VAR_TEST_C", default=True, type=click.BOOL)
 def main(test_b, test_c):
-    cfg = AKConfig(globals(), None, None)
+    cfg = AKConfig()
     result = cfg.get_arg_envvar("test_a", "test_b")
     print(cfg.VAR_TEST_A, cfg.VAR_TEST_B, cfg.VAR_TEST_C, result)
 
