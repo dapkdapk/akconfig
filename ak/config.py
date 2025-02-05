@@ -189,11 +189,11 @@ class AKConfig:
         else:
             return ret
 
-    def print_config(self):
+    def print_config(self, title: str = "VARIABLES"):
         print(
             AKConfig.CreateTable(
                 entries=self.get_config(True, 5),
-                title="AKCONFIG VARIABLES",
+                title=title,
                 footing_row=["Date", "{}".format(datetime.now())],
                 uncolored=self.uncolored,
             )
