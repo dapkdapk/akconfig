@@ -200,10 +200,30 @@ class AKConfig:
         )
 
     def get_arg_envvar(self, *var_names) -> list:
+        return self.get_arg_envvar_deep(0, *var_names)
+
+    def get_arg_envvar_deep(self, deep: int, *var_names) -> list:
+        _n_var_names = var_names if deep == 0 else []
+        if deep > 0:
+            for a in var_names:
+                _n_var_names.append(AKConfig.GetVarName(a, deep))
         if self.click is not None:
-            return AKConfig.GetARgVars(self.click, *var_names)
+            return AKConfig.GetARgVars(self.click, *_n_var_names)
         else:
             return []
+
+    @staticmethod
+    def GetVarName(var, deep: int = 1):
+        _i = inspect.currentframe()
+        itr = 0
+        while itr < deep:
+            _i = _i.f_back
+            itr += 1
+        callers_local_vars = _i.f_locals.items()
+        result = [
+            var_name for var_name, var_val in callers_local_vars if var_val is var
+        ]
+        return result[0] if len(result) == 1 else result
 
     @staticmethod
     def GetARgVars(clk: click, *var_names) -> list:

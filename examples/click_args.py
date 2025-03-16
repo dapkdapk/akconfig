@@ -10,8 +10,12 @@ VAR_TEST_A = "Hello"
 @click.option("-c", "--test-c", envvar="VAR_TEST_C", default=True, type=click.BOOL)
 def main(test_b, test_c):
     cfg = AKConfig()
-    result = cfg.get_arg_envvar("test_a", "test_b")
-    print(cfg.VAR_TEST_A, cfg.VAR_TEST_B, cfg.VAR_TEST_C, result)
+    result = cfg.get_arg_envvar("VAR_TEST_A", "test_b", "test_c")
+    result2 = cfg.get_arg_envvar_deep(2, VAR_TEST_A, test_b, test_c)
+
+    print("1:", cfg.VAR_TEST_A, cfg.VAR_TEST_B, cfg.VAR_TEST_C)
+    print("2:", result)
+    print("3:", result2)
 
     cfg.print_config()
 
